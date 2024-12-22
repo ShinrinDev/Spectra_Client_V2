@@ -452,7 +452,7 @@ const Profile = () => {
               </ul>
             </div>
             <div>
-              <h4 className='text-lg font-bold text-black dark:text-white'>Case Study</h4>
+              <h4 className='text-lg font-bold text-black dark:text-white'>Case Studies</h4>
               <ul className='mt-4 text-left'>
                   <li>
                     {editing.caseStudy ? ( 

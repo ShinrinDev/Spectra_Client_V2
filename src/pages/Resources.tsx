@@ -24,39 +24,51 @@ const Resources: React.FC = () => {
   ];
 
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [expandedArticleId, setExpandedArticleId] = useState<number | null>(null);
 
   const handleCopy = (url: string) => {
     navigator.clipboard.writeText(url);
     setCopiedLink(url);
     setTimeout(() => setCopiedLink(null), 2000);
   };
+  const handleToggleArticle = (id: number) => {
+    setExpandedArticleId(expandedArticleId === id ? null : id);
+  };
 
   return (
     <>
     <Breadcrumb pageName="Resources" />
 
-<div className="bg-gray-800 min-h-screen py-8">
-  <div className="container mx-auto px-4 bg-gray-800">
-    <h1 className="text-3xl font-bold text-center mb-6 text-white">Resources</h1>
+<div className="dark:bg-gray-800 min-h-screen py-8 bg-white">
+  <div className="container mx-auto px-4 bg-white dark:bg-gray-800">
+    <h1 className="text-3xl font-bold text-center mb-6 text-gray-600 dark:text-white">Resources</h1>
     
     {/* Articles Section */}
-    <div className="bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-      <h2 className="text-2xl font-semibold mb-4 text-white">Articles</h2>
-      {articles.map((article) => (
-        <div key={article.id} className="mb-6">
-          <h3 className="text-xl font-medium text-white">{article.title}</h3>
-          <p className="text-white mt-2">{article.content}</p>
-        </div>
-      ))}
-    </div>
+             {/* Articles Section */}
+             <div className="dark:bg-gray-800 bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-600 dark:text-white">Articles</h2>
+            {articles.map((article) => (
+              <div key={article.id} className="mb-6">
+                <h3
+                  className="text-xl font-small text-gold dark:text-white cursor-pointer underline"
+                  onClick={() => handleToggleArticle(article.id)}
+                >
+                  {article.title} - Click to view
+                </h3>
+                {expandedArticleId === article.id && (
+                  <p className="dark:text-white text-gray-400 mt-2">{article.content}</p>
+                )}
+              </div>
+            ))}
+          </div>
 
     {/* Third-Party Links Section */}
-    <div className="bg-white rounded-lg shadow-md p-6 bg-gray-800">
-      <h2 className="text-2xl font-semibold mb-4 text-white">Third Party Links</h2>
+    <div className="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800">
+      <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Third Party Links</h2>
       <ul>
         {links.map((link) => (
           <li key={link.id} className="flex items-center justify-between mb-4">
-            <span className="text-white">{link.name}</span>
+            <span className="text-gray-600 dark:text-white">{link.name}</span>
             <div className="flex items-center space-x-2">
               <a
                 href={link.url}

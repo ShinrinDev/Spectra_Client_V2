@@ -103,7 +103,7 @@ function App() {
           path="/emails"
           element={
             <>
-              <PageTitle title="Spectra Client | Emails" />
+              <PageTitle title="Spectra Client | Interested Leads" />
               <Emails />
             </>
           }
