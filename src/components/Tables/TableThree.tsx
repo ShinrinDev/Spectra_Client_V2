@@ -284,12 +284,7 @@ const TableThree = () => {
                     >
                       Download PDF
                     </button>
-                    <button
-                      className="text-sm bg-purple-500 text-white px-4 py-2 rounded"
-                      onClick={() => handleDownloadAsText(packageItem)}
-                    >
-                      Download Text
-                    </button>
+                   
                   </div>
                 </td>
               </tr>

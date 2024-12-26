@@ -11,7 +11,7 @@ const options: ApexOptions = {
     fontFamily: 'Satoshi, sans-serif',
     type: 'donut',
   },
-  colors: ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF'],
+  colors: ['#fad949', '#fab949', '#fcf7b4', '#d99c2b',"#f9e497",'#b78e1f','#9d7a14'],
   labels: ['Logistics', 'Marketing', 'Unknown', 'Sales'],
   legend: {
     show: false,
@@ -90,7 +90,7 @@ const ChartThree: React.FC = () => {
       <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
+            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fad949]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Logistics </span>
               <span> 39% </span>
@@ -99,7 +99,7 @@ const ChartThree: React.FC = () => {
         </div>
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
+            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fab949]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Marketing </span>
               <span> 20% </span>
@@ -108,7 +108,7 @@ const ChartThree: React.FC = () => {
         </div>
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
+            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fcf7b4]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Unknown </span>
               <span> 7% </span>
@@ -117,7 +117,7 @@ const ChartThree: React.FC = () => {
         </div>
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
+            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#d99c2b]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Sales </span>
               <span> 34% </span>

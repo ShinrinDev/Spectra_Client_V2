@@ -8,7 +8,7 @@ const options: ApexOptions = {
     position: 'top',
     horizontalAlign: 'left',
   },
-  colors: ['#3C50E0', '#80CAEE'],
+  colors: ['#fad949', '#80CAEE'],
   chart: {
     fontFamily: 'Satoshi, sans-serif',
     height: 335,
@@ -69,8 +69,8 @@ const options: ApexOptions = {
   },
   markers: {
     size: 4,
-    colors: '#fff',
-    strokeColors: ['#3056D3', '#80CAEE'],
+    colors: '#fab949',
+    strokeColors: ['#fad949', '#fad949'],
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
@@ -126,7 +126,7 @@ const ChartOne: React.FC = () => {
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
-        name: 'Product One',
+        name: 'Leads 2024',
         data: [23, 11, 30, 45, 63, 62, 57, 41, 74, 82, 90, 85],
       },
 
@@ -145,15 +145,15 @@ const ChartOne: React.FC = () => {
   handleReset;
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-black sm:px-7.5 xl:col-span-8">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
           <div className="flex min-w-47.5">
-            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-primary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
+            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-black dark:border-[##fad949]">
+              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-black dark:bg-[#fad949]"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Lead Performance</p>
+              <p className="font-semibold  text-black dark:text-[#fad949]">Lead Performance</p>
               {/**<p className="text-sm font-medium">12.11.2024 - 12.11.2024</p> */}
             </div>
           </div>
