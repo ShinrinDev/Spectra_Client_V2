@@ -105,7 +105,7 @@ const ECommerce: React.FC = () => {
         <div className="col-span-12 xl:col-span-9">
           <TableOne />
         </div>
-        <EmailCard />
+    {/**    <EmailCard /> */}
       </div>
     </>
   );

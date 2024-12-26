@@ -196,8 +196,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 }}
               </SidebarLinkGroup>
               {/* <!-- Menu Item Dashboard --> */}
-
-              {/* <!-- Menu Item Calendar --> */}
+{/**
+              {/* <!-- Menu Item Calendar --> }
               <li>
                 <NavLink
                   to="/calendar"
@@ -222,7 +222,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Calendar
                 </NavLink>
               </li>
-              {/* <!-- Menu Item Calendar --> */}
+              {/* <!-- Menu Item Calendar --> } */}
 
               {/* <!-- Menu Item Profile --> */}
               <li>
