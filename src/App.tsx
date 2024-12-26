@@ -7,6 +7,7 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
+import OnboardingBot from './pages/OnBoardingBot';
 import ECommerce from './pages/Dashboard/ECommerce';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
@@ -31,139 +32,139 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  // Define routes that should bypass DefaultLayout
+  const authRoutes = ['/auth/signin', '/auth/signup', '/onboarding'];
+
+  const isAuthRoute = authRoutes.includes(pathname);
+
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="Spectra Client | Analytics" />
-              <ECommerce />
-            </>
-          }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Calendar" />
-              <Calendar />
-            </>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Profile" />
-              <Profile />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-elements"
-          element={
-            <>
-              <PageTitle title="Form Elements" />
-              <FormElements />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-layout"
-          element={
-            <>
-              <PageTitle title="Form Layout" />
-              <FormLayout />
-            </>
-          }
-        />
-        <Route
-          path="/tables"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Tables" />
-              <Tables />
-            </>
-          }
-        />
-          <Route
-          path="/resources"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Resources" />
-              <Resources />
-            </>
-          }
-        />
-          <Route
-          path="/emails"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Interested Leads" />
-              <Emails />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Settings" />
-              <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
-              <PageTitle title="Basic Chart" />
-              <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
-              <PageTitle title="Alerts" />
-              <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
-              <PageTitle title="Buttons" />
-              <Buttons />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Signin " />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Spectra Client | Signup" />
-              <SignUp />
-            </>
-          }
-        />
-      </Routes>
-    </DefaultLayout>
+    <>
+      {isAuthRoute ? (
+        // Render without DefaultLayout
+        <Routes>
+          <Route path="/auth/signin" element={<SignIn />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+          <Route path="/onboarding" element={<OnboardingBot />} />
+        </Routes>
+      ) : (
+        // Render with DefaultLayout
+        <DefaultLayout>
+          <Routes>
+            <Route
+              index
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Analytics" />
+                  <ECommerce />
+                </>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Calendar" />
+                  <Calendar />
+                </>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Profile" />
+                  <Profile />
+                </>
+              }
+            />
+            <Route
+              path="/forms/form-elements"
+              element={
+                <>
+                  <PageTitle title="Form Elements" />
+                  <FormElements />
+                </>
+              }
+            />
+            <Route
+              path="/forms/form-layout"
+              element={
+                <>
+                  <PageTitle title="Form Layout" />
+                  <FormLayout />
+                </>
+              }
+            />
+            <Route
+              path="/tables"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Tables" />
+                  <Tables />
+                </>
+              }
+            />
+            <Route
+              path="/resources"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Resources" />
+                  <Resources />
+                </>
+              }
+            />
+
+            <Route
+              path="/emails"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Interested Leads" />
+                  <Emails />
+                </>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <>
+                  <PageTitle title="Spectra Client | Settings" />
+                  <Settings />
+                </>
+              }
+            />
+            <Route
+              path="/chart"
+              element={
+                <>
+                  <PageTitle title="Basic Chart" />
+                  <Chart />
+                </>
+              }
+            />
+            <Route
+              path="/ui/alerts"
+              element={
+                <>
+                  <PageTitle title="Alerts" />
+                  <Alerts />
+                </>
+              }
+            />
+            <Route
+              path="/ui/buttons"
+              element={
+                <>
+                  <PageTitle title="Buttons" />
+                  <Buttons />
+                </>
+              }
+            />
+          </Routes>
+        </DefaultLayout>
+      )}
+    </>
   );
 }
 
