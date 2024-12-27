@@ -34,7 +34,7 @@ const Profile = () => {
     thankYouPage: 'https://shinrinsolutions.co.za/meet-the-team/',
     contactDetails: {
       phone: '+1-800-555-6789',
-      email: 'contact@shinrinai.co.za',
+      email: 'shaun@shinrinai.co.za',
       address: '6969 Shinrin Cave, My basement, Moms house',
     },
     

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
-import logo from "../../images/logo/newlogo.jpg"; // Add your logo image here
+import logo from "../../images/logo/SpectraBlackTrans.png";
+ // Add your logo image here
 
 const packageData = [
   {
@@ -91,20 +92,7 @@ const TableThree = () => {
   const handleCloseModal = () => {
     setSelectedInvoice(null);
   };
-
-  // Function to handle "Download Invoice as .txt"
-  const handleDownloadAsText = (invoice: any) => {
-    const invoiceContent = `
-      Invoice ID: ${invoice.invoiceId}
-      Name: ${invoice.name}
-      Amount: $${invoice.price}
-      Date: ${invoice.invoiceDate}
-      Status: ${invoice.status}
-      --- Logo Link: https://example.com/logo ---
-    `;
-    const blob = new Blob([invoiceContent], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, `${invoice.invoiceId}.txt`);
-  };
+ 
 
   // Function to handle "Download Invoice as .pdf"
   const handleDownloadAsPDF = (invoice: any) => {
@@ -115,42 +103,102 @@ const TableThree = () => {
     pdf.setFontSize(12);
 
     // Add logo to the PDF
-    const logoWidth = 10;
+    const logoWidth = 25;
     const logoHeight = 10;
-    pdf.addImage(logo, 'PNG', 10, 10, logoWidth, logoHeight);
+    pdf.addImage(logo, 'PNG', 5, 5, logoWidth, logoHeight);
 
     // Company name text
     pdf.setFontSize(16);
-    pdf.text("Spectra Acquisition", 25, 18);
+    pdf.text("Spectra Acquisition", 35, 10);
 
-    // Title: Invoice
-    pdf.setFontSize(18);
-    pdf.text("Invoice", 10, 35);
+   
+  
 
     // Invoice ID and Date on the same line (ID at the far right)
     pdf.setFontSize(12);
-    pdf.text(`Invoice Date: ${invoice.invoiceDate}`, 10, 55);
-    pdf.text(`Invoice ID: ${invoice.invoiceId}`, 180, 55, { align: "right" });
+    pdf.text(`Invoice: ${invoice.invoiceId}`, 150, 20);
+    pdf.text(`Issued on: ${invoice.invoiceDate}`, 150, 28);
+    pdf.text(`Due by: ${invoice.invoiceDate}`, 150, 36);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("From:", 10,50);
+    pdf.setFontSize(12);
+    pdf.setFont("helvetic","normal");
+    pdf.text("Spectra Acquisition", 10, 58);
+    pdf.text("zane@spectraacquisition.com", 10, 66);
+    pdf.text("+447418355227",10,74);
+    pdf.text("spectraacquisition.com",10, 82);
+
+     // Recipient Details
+     pdf.setFontSize(12);
+     pdf.setFont("helvetica", "bold");
+     pdf.text("To:", 120, 50);
+     pdf.setFont("helvetica", "normal");
+     pdf.text("Shinrin AI Solutions", 120, 58);
+     pdf.text("Thavir Raju", 120,66)
+     pdf.text("thavir@shinrin.com", 120, 74);
+     pdf.text("+1 2540 56810", 120, 82);
+     pdf.text("6969 Shinrin Cave, My Basement, Moms Place", 120, 90);
+
+     //Remarks
+
+     pdf.setFont("helvetic", "bold");
+     pdf.text("Remarks",10,100);
+     pdf.setFont("helvetica", "normal");
+     pdf.text("Bank name:",10,108);
+     pdf.text("Barclays",10,116);
+     pdf.text("Sort code:",10,126);
+     pdf.text("231486",10,134);
+     pdf.text("Account number:",10,142);
+     pdf.text("15167151",10,150);
+     pdf.text("Beneficiary name:",10,158);
+     pdf.text("Zane Czepek",10,166);
+     pdf.text("067 718 3670",10,176);
 
     // Gray background for amounts and description
     pdf.setFillColor(220, 220, 220); // light gray
-    pdf.rect(10, 65, 190, 30, 'F'); // Draw a gray background for the section
+    pdf.rect(9, 190, 190, 6, 'F'); // Draw a gray background for the section
     pdf.setTextColor(0, 0, 0); // Reset text color to black
 
     // Description inside the gray area
-    pdf.text(`Description: ${invoice.name}`, 12, 70);
-    pdf.text(`Amount: $${invoice.price}`, 12, 80);
-    pdf.text(`Status: ${invoice.status}`, 12, 90)
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Product", 10, 195);
+    pdf.text("Quantity", 70, 195);
+    pdf.text("Unit Price", 100, 195);
+    pdf.text("Tax", 130, 195);
+    pdf.text("Total", 160, 195);
+
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`${invoice.name}`,10,200);
+    pdf.text("1",70,200);
+    pdf.text(`£ ${invoice.price}`,100,200);
+    pdf.text("£ 0",130,200)
+    pdf.text(`£ ${invoice.price}`,160,200)
+
+    pdf.setDrawColor(150);
+    pdf.setLineWidth(0.5);
+    pdf.line(10, 205, 200, 205);
+
+    let y = 210;
+
+    y += 10;
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Invoice Summary", 10, y);
+    y += 10;
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`Subtotal: £ ${invoice.price.toFixed(2)}`, 10, y);
+    pdf.text(`Tax: £ 0`, 10, y + 10);
+    pdf.text(`Total: £ ${invoice.price.toFixed(2)}`, 10, y + 20);
 
 
     // Add a divider line
-    pdf.setLineWidth(0.5);
-    pdf.line(10, 95, 200, 95);
+    
 
     // Footer with company info
+    pdf.setFont("helvetica", "italic");
     pdf.setFontSize(10);
-    pdf.text("Spectra Acquisition", 10, 280);
-    pdf.text("www.spectra-acquisition.com", 10, 290);
+    pdf.text("Thank you for choosing Spectra Acquisition!", 105, 280, { align: "center" });
 
     // Save the PDF
     pdf.save(`${invoice.invoiceId}.pdf`);
@@ -165,60 +213,113 @@ const TableThree = () => {
     pdf.setFontSize(12);
 
     // Add logo to the PDF
-    const logoWidth = 10;
+    const logoWidth = 25;
     const logoHeight = 10;
-    pdf.addImage(logo, 'PNG', 10, 10, logoWidth, logoHeight);
+    pdf.addImage(logo, 'PNG', 5, 5, logoWidth, logoHeight);
 
     // Company name text
     pdf.setFontSize(16);
-    pdf.text("Spectra Acquisition", 22, 18);
+    pdf.text("Spectra Acquisition", 35, 10);
 
-    // Title for Weekly Summary
-    pdf.setFontSize(18);
-    pdf.text("Weekly Invoice", 10, 35);
-
-    // Add the date of the weekly invoice
     const currentDate = new Date().toLocaleDateString();
     pdf.setFontSize(12);
-    // Position the date to the far right of the page
-    pdf.text(`Date: ${currentDate}`, 190, 45, { align: "right" });
-
-    // Add list of unpaid invoices with dates
-    let y = 55;
+    pdf.text(`Invoice: week_50_0001`, 150, 20);
+    pdf.text(`Issued on: ${currentDate}`, 150, 28,{align:"right"});
+    pdf.text(`Due by: ${currentDate}`, 150, 36);
+    // Add the date of the weekly invoice
+    pdf.setFont("helvetica", "bold");
+    pdf.text("From:", 10,50);
     pdf.setFontSize(12);
-    unpaidInvoices.forEach((invoice) => {
-      // Adding the invoice list with gray background for the amounts
-      pdf.setFillColor(220, 220, 220); // light gray
-      pdf.rect(10, y, 190, 10, 'F'); // Draw a gray background for the section
-      pdf.setTextColor(0, 0, 0); // Reset text color to black
+    pdf.setFont("helvetic","normal");
+    pdf.text("Spectra Acquisition", 10, 58);
+    pdf.text("zane@spectraacquisition.com", 10, 66);
+    pdf.text("+447418355227",10,74);
+    pdf.text("spectraacquisition.com",10, 82);
 
-      // Show name, price, invoice ID, and align date to the right
-      pdf.text(
-        `- ${invoice.name} - $${invoice.price} (Invoice ID: ${invoice.invoiceId})`,
-        10,
-        y + 6
-      );
-      pdf.text(`Date: ${invoice.invoiceDate}`, 190, y + 6, { align: "right" });
+     // Recipient Details
+     pdf.setFontSize(12);
+     pdf.setFont("helvetica", "bold");
+     pdf.text("To:", 120, 50);
+     pdf.setFont("helvetica", "normal");
+     pdf.text("Shinrin AI Solutions", 120, 58);
+     pdf.text("Thavir Raju", 120,66)
+     pdf.text("thavir@shinrin.com", 120, 74);
+     pdf.text("+1 2540 56810", 120, 82);
+     pdf.text("6969 Shinrin Cave, My Basement, Moms Place", 120, 90);
 
-      y += 20;
-    });
+     //Remarks
 
-    // Add total unpaid amount
+     pdf.setFont("helvetic", "bold");
+     pdf.text("Remarks",10,100);
+     pdf.setFont("helvetica", "normal");
+     pdf.text("Bank name:",10,108);
+     pdf.text("Barclays",10,116);
+     pdf.text("Sort code:",10,126);
+     pdf.text("231486",10,134);
+     pdf.text("Account number:",10,142);
+     pdf.text("15167151",10,150);
+     pdf.text("Beneficiary name:",10,158);
+     pdf.text("Zane Czepek",10,166);
+     pdf.text("067 718 3670",10,176);
+
+    // Gray background for amounts and description
     pdf.setFillColor(220, 220, 220); // light gray
-    pdf.setFontSize(14);
-    pdf.text(`\nTotal Unpaid Amount: $${totalUnpaid.toFixed(2)}`, 10, y + 6);
+    pdf.rect(9, 190, 190, 6, 'F'); // Draw a gray background for the section
+    pdf.setTextColor(0, 0, 0); // Reset text color to black
+
+    // Description inside the gray area
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Product", 10, 195);
+    pdf.text("Quantity", 70, 195);
+    pdf.text("Unit Price", 100, 195);
+    pdf.text("Tax", 130, 195);
+    pdf.text("Total", 160, 195);
+
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Leads",10,200);
+    pdf.text(`${unpaidInvoices.length}`,70,200);
+    pdf.text(`£ ${totalUnpaid.toFixed(2)}`,100,200);
+    pdf.text("£ 0",130,200)
+    pdf.text(`£ ${totalUnpaid.toFixed(2)}`,160,200)
+    const invoiceNames = unpaidInvoices.map((invoice) => invoice.name).join(", ");
+    console.log("invoces names:", invoiceNames);
+    pdf.text(`Names: ${invoiceNames}`,208,10)
+
+    pdf.setDrawColor(150);
+    pdf.setLineWidth(0.5);
+    pdf.line(10, 215, 200, 215);
+
+
+
+   
+    
+    
+
+//Summary...
+let y = 220;
+
+    y += 5;
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Invoice Summary", 10, y);
+    y += 5;
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`Subtotal: £ ${totalUnpaid.toFixed(2)}`, 10, y);
+    pdf.text(`Tax: £ 0`, 10, y + 5);
+    pdf.text(`Total: £ ${totalUnpaid.toFixed(2)}`, 10, y + 10);
+
 
     // Add a divider line
-    pdf.setLineWidth(0.5);
-    pdf.line(10, y + 15, 200, y + 15);
+    
 
     // Footer with company info
+    pdf.setFont("helvetica", "italic");
     pdf.setFontSize(10);
-    pdf.text("Spectra Acquisition", 10, y + 30);
-    pdf.text("www.spectra-acquisition.com", 10, y + 40);
+    pdf.text("Thank you for choosing Spectra Acquisition!", 105, 280, { align: "center" });
+ 
 
     // Save the PDF
-    pdf.save('Weekly_Invoice.pdf');
+    pdf.save('weekly_50_0004.pdf');
 };
 
 

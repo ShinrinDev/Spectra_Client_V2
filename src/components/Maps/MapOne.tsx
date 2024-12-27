@@ -1,53 +1,37 @@
-import jsVectorMap from 'jsvectormap';
-import 'jsvectormap/dist/css/jsvectormap.css';
-import { useEffect } from 'react';
-import '../../js/world'; // Replace this with the correct path to the world map JS file.
+import React from 'react';
+import { Map, Marker } from 'pigeon-maps';
 
-const MapOne = () => {
-  useEffect(() => {
-    const mapOne = new jsVectorMap({
-      selector: '#mapOne',
-      map: 'world', // Use 'world' or the key name for the global map.
-      zoomButtons: true,
+interface Location {
+  lat: number;
+  lng: number;
+  label: string;
+}
 
-      regionStyle: {
-        initial: {
-          fill: '#C8D0D8',
-        },
-        hover: {
-          fillOpacity: 1,
-          fill: '#3056D3',
-        },
-      },
-      regionLabelStyle: {
-        initial: {
-          fontFamily: 'Satoshi',
-          fontWeight: 'semibold',
-          fill: '#fff',
-        },
-        hover: {
-          cursor: 'pointer',
-        },
-      },
-
-      labels: {
-        regions: {
-          render(code: string) {
-            return code.split('-')[1];
-          },
-        },
-      },
-    });
-
-    mapOne;
-  });
+const MapOne: React.FC = () => {
+  const locations: Location[] = [
+    { lat: 51.5074, lng: -0.1278, label: 'London' },
+    { lat: 40.7128, lng: -74.006, label: 'New York' },
+    { lat: 34.0522, lng: -118.2437, label: 'Los Angeles' },
+    { lat: 48.8566, lng: 2.3522, label: 'Paris' },
+    { lat: 35.6762, lng: 139.6503, label: 'Tokyo' },
+  ];
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-7">
+    <div className="col-span-12 xl:col-span-3 2xl:col-span-8 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <h4 className="mb-2 text-xl font-semibold text-black dark:text-white">
         Leads Location
       </h4>
-      <div id="mapOne" className="mapOne map-btn h-90"></div>
+      <div style={{ height: '400px', width: '100%' }}>
+        <Map height={400} defaultCenter={[0, 0]} defaultZoom={2}>
+          {locations.map((location, index) => (
+            <Marker
+              key={index}
+              width={50}
+              anchor={[location.lat, location.lng]}
+            />
+          ))}
+        </Map>
+      </div>
     </div>
   );
 };

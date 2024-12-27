@@ -50,7 +50,7 @@ const Resources: React.FC = () => {
             {articles.map((article) => (
               <div key={article.id} className="mb-6">
                 <h3
-                  className="text-xl font-small text-gold dark:text-white cursor-pointer underline"
+                  className="text-xl font-small text-black dark:text-[#fad949] cursor-pointer underline"
                   onClick={() => handleToggleArticle(article.id)}
                 >
                   {article.title} - Click to view
@@ -68,7 +68,7 @@ const Resources: React.FC = () => {
       <ul>
         {links.map((link) => (
           <li key={link.id} className="flex items-center justify-between mb-4">
-            <span className="text-gray-600 dark:text-white">{link.name}</span>
+            <span className="text-gray-600 dark:text-[#fad949]">{link.name}</span>
             <div className="flex items-center space-x-2">
               <a
                 href={link.url}

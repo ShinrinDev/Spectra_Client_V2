@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 // Update these imports to point to your logo assets
 import YourLogo from '../../images/logo/SpectraWhiteTrans.png'; // Light mode logo
 import YourLogoDark from '../../images/logo/SpectraWhiteTrans.png'; // Dark mode logo
+import { useNavigate } from 'react-router-dom';
+
 
 const SignIn: React.FC = () => {
+  const navigate = useNavigate();
+
+   const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      // Perform signup logic here...
+      navigate('/');
+    };
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-boxdark">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark flex">
@@ -30,7 +39,7 @@ const SignIn: React.FC = () => {
               Join Spectra
             </h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">
                   Email

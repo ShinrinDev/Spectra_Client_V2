@@ -50,19 +50,19 @@ const OnboardingBot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className="flex items-center justify-center h-screen bg-gray-900">
       <div className="rounded-sm border border-gray-300 bg-white shadow-lg w-full max-w-4xl flex flex-col h-[80%]">
         {/* Header */}
         <div className="bg-black text-white p-4 rounded-t-sm">
           <h1 className="text-lg font-bold">Welcome to Spectra Onboarding</h1>
-          <p className="text-sm">
+          <p className="text-sm text-[#fad949]">
             Let’s get you started with a quick setup! Type "Hi" to activate the
             bot🤖
           </p>
         </div>
 
         {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-gray-600">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -95,7 +95,7 @@ const OnboardingBot: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-gray-300">
+        <div className="p-4 border-t border-gray-300 bg-gray-600">
           <form className="flex items-center" onSubmit={handleSendMessage}>
             <input
               type="text"
