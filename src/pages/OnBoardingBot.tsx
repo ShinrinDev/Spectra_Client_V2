@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { useNavigate } from 'react-router-dom';
 const OnboardingBot: React.FC = () => {
+
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>(
     [],
   );
@@ -49,45 +52,58 @@ const OnboardingBot: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+
+  const handleLogin = () =>{
+    navigate("/auth/signin")
+  }
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-900">
-      <div className="rounded-sm border border-gray-300 bg-white shadow-lg w-full max-w-4xl flex flex-col h-[80%]">
+    <div className="flex items-center justify-center h-screen bg-customblack">
+      <div className="rounded-lg border border-gray-700 bg-gray-800 shadow-xl w-full max-w-4xl flex flex-col h-[80%] relative">
+        {/* Go to Login Button */}
+        <div className="absolute top-4 right-4">
+          <button
+            onClick={() => {
+              window.location.href = '/auth/signin'; // Replace with your login route
+            }}
+            className="bg-[#fad949] text-black px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition"
+          >
+            Go to Login
+          </button>
+        </div>
+
         {/* Header */}
-        <div className="bg-black text-white p-4 rounded-t-sm">
-          <h1 className="text-lg font-bold">Welcome to Spectra Onboarding</h1>
-          <p className="text-sm text-[#fad949]">
-            Let’s get you started with a quick setup! Type "Hi" to activate the
-            bot🤖
+        <div className="bg-customblack text-white p-6 rounded-t-lg">
+          <h1 className="text-2xl font-bold">Welcome to Spectra Onboarding</h1>
+          <p className="text-md text-[#fad949] mt-2">
+            Let’s get you started with a quick setup! Type "Hi" to activate the bot 🤖
           </p>
         </div>
 
         {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-6 bg-gray-600">
+        <div className="flex-1 overflow-y-auto p-6 bg-customDarkGray">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`mb-4 flex ${
-                msg.sender === 'bot' ? 'justify-end' : 'justify-start'
+                msg.sender === 'bot' ? 'justify-start' : 'justify-end'
               }`}
             >
               <div
                 className={`${
                   msg.sender === 'bot'
-                    ? 'bg-gray-100 text-black'
-                    : 'bg-black text-white'
-                } rounded-lg p-4 max-w-[80%] break-words`}
+                    ? 'bg-gray-700 text-white'
+                    : 'bg-[#fad949] text-black'
+                } rounded-lg px-4 py-3 max-w-[75%] break-words`}
               >
                 <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="mb-4 flex justify-end">
-              <div className="bg-gray-100 text-black rounded-lg p-4 max-w-[80%] break-words">
-                <div className="flex items-center space-x-4">
-                  <div className="spinner w-6 h-6 border-4 border-blue-500 border-t-transparent border-t-4 rounded-full animate-spin"></div>
-                  <span>Loading...</span>
-                </div>
+            <div className="mb-4 flex justify-start">
+              <div className="bg-gray-700 text-white rounded-lg px-4 py-3 max-w-[75%] break-words flex items-center space-x-3">
+                <div className="w-5 h-5 border-4 border-t-gold border-gold rounded-full animate-spin"></div>
+                <span>Loading...</span>
               </div>
             </div>
           )}
@@ -95,20 +111,20 @@ const OnboardingBot: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-gray-300 bg-gray-600">
+        <div className="p-4 border-t border-gray-700 bg-customblack">
           <form className="flex items-center" onSubmit={handleSendMessage}>
             <input
               type="text"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 rounded-lg border border-gray-300 bg-gray-50 py-3 px-4 text-black outline-none focus:border-black focus:ring focus:ring-black focus:ring-opacity-50"
-              disabled={isLoading} // Disable input while loading
+              className="flex-1 rounded-lg border border-gray-700 bg-customDarkGray py-3 px-4 text-white placeholder-gray-500 outline-none focus:ring focus:ring-[#fad949]"
+              disabled={isLoading}
             />
             <button
               type="submit"
-              className="ml-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition"
-              disabled={isLoading} // Disable button while loading
+              className="ml-4 bg-[#fad949] text-black px-6 py-3 rounded-lg hover:bg-opacity-90 transition"
+              disabled={isLoading}
             >
               Send
             </button>

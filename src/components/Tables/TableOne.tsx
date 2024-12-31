@@ -61,16 +61,16 @@ const TableOne = () => {
   const sortedBrandData = [...brandData].sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-3 pt-3 pb-1.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-15">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">Leads</h4>
+    <div className="rounded-sm border border-stroke bg-white px-3 pt-3 pb-1.5 shadow-default dark:border-strokedark dark:bg-black sm:px-7.5 xl:col-span-15">
+      <h4 className="mb-6 text-xl font-semibold text-black dark:text-gold">Leads</h4>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
+        <div className="grid grid-cols-5 rounded-sm bg-gray-200 dark:bg-customDarkGray sm:grid-cols-6">
           <div className="p-2.5 xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">Company</h5>
+            <h5 className="text-sm font-medium uppercase text-gold xsm:text-base">Company</h5>
           </div>
           <div className="hidden p-2.5 sm:block xl:p-5 col-span-4">
-            <h5 className="text-sm font-medium uppercase xsm:text-base text-right">Actions</h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base text-gold text-right">Actions</h5>
           </div>
         </div>
 
@@ -96,7 +96,7 @@ const TableOne = () => {
 
             <div className="flex justify-end p-2.5 xl:p-5">
               <button
-                className="text-sm bg-[#fad949] text-white px-4 py-2 rounded"
+                className="text-sm bg-[#fad949] text-black px-4 py-2 rounded"
                 onClick={() => handleShowDetails(brand)}
               >
                 View More

@@ -39,13 +39,13 @@ const Resources: React.FC = () => {
     <>
     <Breadcrumb pageName="Resources" />
 
-<div className="dark:bg-gray-800 min-h-screen py-8 bg-white">
-  <div className="container mx-auto px-4 bg-white dark:bg-gray-800">
+<div className="dark:bg-customblack min-h-screen py-8 bg-white">
+  <div className="container mx-auto px-4 bg-white dark:bg-customblack">
     <h1 className="text-3xl font-bold text-center mb-6 text-gray-600 dark:text-white">Resources</h1>
     
     {/* Articles Section */}
              {/* Articles Section */}
-             <div className="dark:bg-gray-800 bg-white rounded-lg shadow-md p-6 mb-8">
+             <div className="dark:bg-customDarkGray bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-600 dark:text-white">Articles</h2>
             {articles.map((article) => (
               <div key={article.id} className="mb-6">
@@ -63,7 +63,7 @@ const Resources: React.FC = () => {
           </div>
 
     {/* Third-Party Links Section */}
-    <div className="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800">
+    <div className="bg-white rounded-lg shadow-md p-6 dark:bg-customDarkGray">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Third Party Links</h2>
       <ul>
         {links.map((link) => (
@@ -74,13 +74,13 @@ const Resources: React.FC = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 underline"
+                className="dark:text-gold text-black underline"
               >
                 Visit
               </a>
               <button
                 onClick={() => handleCopy(link.url)}
-                className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition"
+                className="bg-gold text-black py-1 px-3 rounded hover:bg-blue-600 transition"
               >
                 {copiedLink === link.url ? 'Copied!' : 'Copy'}
               </button>

@@ -17,7 +17,7 @@ const MapOne: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-12 xl:col-span-3 2xl:col-span-8 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="col-span-12 xl:col-span-3 2xl:col-span-8 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-customDarkGray">
       <h4 className="mb-2 text-xl font-semibold text-black dark:text-white">
         Leads Location
       </h4>

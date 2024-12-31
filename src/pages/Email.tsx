@@ -204,19 +204,18 @@ const combinedMessages = [...emails, ...smsMessages].sort((a, b) =>
   return (
     <>
       <Breadcrumb pageName="Communication" />
-      <div className="min-h-screen bg-white dark:bg-gray-900 py-8">
+      <div className="min-h-screen bg-white dark:bg-customblack py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">Inbox</h1>
           <div className="flex flex-col lg:flex-row">
             {/* Message List */}
-            <div className="lg:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6 lg:mb-0 lg:mr-4">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Messages</h2>
+            <div className="lg:w-1/3 bg-white dark:bg-customDarkGray rounded-lg shadow-md p-4 mb-6 lg:mb-0 lg:mr-4">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gold mb-4">Interested Leads</h2>
               <ul>
                 {combinedMessages.map((message) => (
                   <li
                     key={message.id}
                     className={`p-3 rounded-lg cursor-pointer mb-3 ${
-                      selectedMessage?.id === message.id ? 'bg-blue-100' : 'hover:bg-gray-200'
+                      selectedMessage?.id === message.id ? 'bg-gold/80' : 'hover:bg-gold/50'
                     }`}
                     onClick={() => handleSelectMessage(message)}
                   >
@@ -224,53 +223,72 @@ const combinedMessages = [...emails, ...smsMessages].sort((a, b) =>
                       {message.type === 'email' ? message.sender : `SMS from ${message.sender}`}
                     </div>
                     {message.type === 'email' && (
-                      <div className="text-sm text-gray-400 dark:text-white truncate">{message.subject}</div>
+                      <div className="text-sm text-gray-900 dark:text-white truncate">{message.subject}</div>
                     )}
-                    <div className="text-xs text-gray-200 dark:text-white">{message.timestamp}</div>
+                    <div className="text-xs text-gray-900 dark:text-white">{message.timestamp}</div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Message Details */}
-            <div className="lg:w-2/3 bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-              {selectedMessage ? (
-                <>
-                  <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                    {selectedMessage.type === 'email'
-                      ? selectedMessage.subject
-                      : `Conversation with ${selectedMessage.sender}`}
-                  </h2>
-                  <ul className="mb-4">
-                    {selectedMessage.thread.map((message, index) => (
-                      <li key={index} className="mb-4">
-                        <p className="text-gray-600 dark:text-white">
-                          <strong>{message.sender}:</strong>
-                          <br />
-                          {message.content}
-                        </p>
-                        <p className="text-xs text-gray-400">{message.timestamp}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <textarea
-                    className="w-full border-gray-300 rounded-md p-2 mb-4 text-black"
-                    rows={4}
-                    placeholder="Write your reply..."
-                    value={replyContent}
-                    onChange={(e) => setReplyContent(e.target.value)}
-                  />
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                    onClick={handleReply}
-                  >
-                    Send Reply
-                  </button>
-                </>
-              ) : (
-                <p className="text-gray-400">Select a message to view details.</p>
-              )}
+{/* Message Details */}
+<div className="lg:w-2/3 bg-white dark:bg-customDarkGray rounded-lg shadow-md p-6">
+  {selectedMessage ? (
+    <>
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gold mb-4">
+        {selectedMessage.type === 'email'
+          ? selectedMessage.subject
+          : `Conversation with ${selectedMessage.sender}`}
+      </h2>
+      <ul className="mb-4 space-y-4">
+        {selectedMessage.thread.map((message, index) => (
+          <li
+            key={index}
+            className={`flex ${
+              message.sender === 'you' ? 'justify-end' : 'justify-start'
+            }`}
+          >
+            <div
+              className={`max-w-[75%] p-4 rounded-lg ${
+                message.sender === 'you'
+                  ? 'bg-gold text-black'
+                  : 'bg-gray-700 text-white'
+              }`}
+            >
+              <p className="mb-2">
+                <strong>
+                  {message.sender === 'you' && selectedMessage.type === 'email'
+                    ? 'shaun@shinrin.com'
+                    : message.sender}
+                  {message.sender !== 'you' && selectedMessage.type === 'email' && `:`}
+                </strong>
+              </p>
+              <p>{message.content}</p>
+              <p className="text-xs text-gray-400 mt-2 text-right">{message.timestamp}</p>
             </div>
+          </li>
+        ))}
+      </ul>
+      <textarea
+        className="w-full border-gray-900 bg-gray-600 rounded-md p-2 mb-4 text-white"
+        rows={4}
+        placeholder="Write your reply..."
+        value={replyContent}
+        onChange={(e) => setReplyContent(e.target.value)}
+      />
+      <button
+        className="bg-gold text-black px-4 py-2 rounded-md hover:bg-gold/90 transition"
+        onClick={handleReply}
+      >
+        Send Reply
+      </button>
+    </>
+  ) : (
+    <p className="text-gray-400">Select a message to view details.</p>
+  )}
+</div>
+
+
           </div>
         </div>
       </div>

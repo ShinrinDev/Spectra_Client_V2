@@ -19,12 +19,10 @@ module.exports = {
       colors: {
         current: 'currentColor',
         transparent: 'transparent',
+        gold: '#fad949',
+        customblack: '#000000',
+        customDarkGray: '#1a1a1a',
         white: '#FFFFFF',
-        black: {
-          ...colors.black,
-          DEFAULT: '#1C2434',
-          2: '#010101',
-        },
         red: {
           ...colors.red,
           DEFAULT: '#FB5454',
@@ -46,7 +44,7 @@ module.exports = {
         whiten: '#F1F5F9',
         whiter: '#F5F7FD',
         boxdark: '#24303F',
-        'boxdark-2': '#1A222C',
+        'boxdark-2': '#000000',
         strokedark: '#2E3A47',
         'form-strokedark': '#3d4d60',
         'form-input': '#1d2a39',

@@ -91,12 +91,12 @@ const Profile = () => {
     <>
       <Breadcrumb pageName="Profile" />
 
-      <div className="overflow-hidden rounded-sm border border-stroke bg-white dark:bg-black shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="overflow-hidden rounded-sm border border-stroke bg-white dark:bg-black shadow-default dark:border-strokedark dark:bg-customblack">
         <div className="relative z-20 h-35 md:h-65">
           <img
             src={CoverTwo}
             alt="profile cover"
-            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center bg-white dark:bg-gray-900 "
+            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center bg-white dark:bg-customblack "
           />
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">

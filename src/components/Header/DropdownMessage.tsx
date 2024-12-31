@@ -19,7 +19,7 @@ const DropdownMessage = () => {
             setNotifying(false);
             setDropdownOpen(!dropdownOpen);
           }}
-          className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
+          className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-gold dark:text-black"
           to="#"
         >
           <span
@@ -60,7 +60,7 @@ const DropdownMessage = () => {
         {/* <!-- Dropdown Start --> */}
         {dropdownOpen && (
           <div
-            className={`absolute -right-16 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:right-0 sm:w-80`}
+            className={`absolute -right-16 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-customDarkGray sm:right-0 sm:w-80`}
           >
             <div className="px-4.5 py-3">
               <h5 className="text-sm font-medium text-bodydark2">Messages</h5>

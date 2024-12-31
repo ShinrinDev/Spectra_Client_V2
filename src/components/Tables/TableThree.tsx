@@ -325,23 +325,23 @@ let y = 220;
 
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">Invoices</h4>
+    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-black sm:px-7.5 xl:pb-1">
+      <h4 className="mb-6 text-xl font-semibold text-black dark:text-gold">Invoices</h4>
 
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
-            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+            <tr className="bg-gray-2 text-left dark:bg-customDarkGray">
+              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-gold xl:pl-11">
                 Lead
               </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-gold">
                 Invoice Date
               </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-gold">
                 Status
               </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
+              <th className="py-4 px-4 font-medium text-black dark:text-gold">
                 Actions
               </th>
             </tr>
@@ -374,13 +374,13 @@ let y = 220;
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <button
-                      className="text-sm bg-blue-500 text-white px-4 py-2 rounded"
+                      className="text-sm bg-customDarkGray text-gold px-4 py-2 rounded"
                       onClick={() => handleViewInvoice(packageItem)}
                     >
                       View
                     </button>
                     <button
-                      className="text-sm bg-green-500 text-white px-4 py-2 rounded"
+                      className="text-sm bg-gold text-black px-4 py-2 rounded"
                       onClick={() => handleDownloadAsPDF(packageItem)}
                     >
                       Download PDF
@@ -393,13 +393,13 @@ let y = 220;
 
             {/* Weekly Invoice Summary Row */}
             <tr>
-              <td colSpan={4} className="text-center py-4 font-semibold">
+              <td colSpan={4} className="text-center text-black py-4 font-semibold dark:text-gold">
                 Weekly Invoice Summary
                 <div className="mt-2">
                   <p className="font-medium">Total Unpaid: ${totalUnpaid.toFixed(2)}</p>
                   <div className="mt-4">
                     <h5 className="font-medium text-left">Unpaid Invoices:</h5>
-                    <ul className="text-left">
+                    <ul className="text-left dark:text-white">
                       {unpaidInvoices.map((invoice) => (
                         <li key={invoice.invoiceId}>
                           {invoice.name} - ${invoice.price} (ID: {invoice.invoiceId})
@@ -408,7 +408,7 @@ let y = 220;
                     </ul>
                   </div>
                   <button
-                    className="bg-primary text-white px-6 py-3 rounded mt-4"
+                    className="bg-gold text-black px-6 py-3 rounded mt-4"
                     onClick={handleDownloadWeeklyAsPDF}
                   >
                     Download Weekly Summary PDF

@@ -59,7 +59,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-customDarkGray lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -98,7 +98,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-white">
               MENU
             </h3>
 
@@ -114,7 +114,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                           (pathname === '/' ||
                             pathname.includes('dashboard')) &&
                           'bg-graydark dark:bg-meta-4'
@@ -181,7 +181,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gold duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
@@ -228,8 +228,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/profile"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gold  duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('profile') && 'bg-graydark dark:bg-gold/70 dark:text-black'
                   }`}
                 >
                   <svg
@@ -255,8 +255,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                 to= "/resources"
-                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                  pathname.includes('resources') && 'bg-graydark dark:bg-meta-4'
+                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gold duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                  pathname.includes('resources') && 'bg-gold dark:bg-gold/70 dark:text-black'
                 }`}>
                     Resources
                 </NavLink>
@@ -264,8 +264,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                 to= "/emails"
-                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                  pathname.includes('resources') && 'bg-graydark dark:bg-meta-4'
+                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gold duration-300 ease-in-out hover:bg-gold dark:hover:bg-meta-4 ${
+                  pathname.includes('emails') && 'bg-graydark dark:bg-gold/70 dark:text-black'
                 }`}>
                     Interested Leads
                 </NavLink>
@@ -385,8 +385,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/tables"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('tables') && 'bg-graydark dark:bg-meta-4'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gold duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('tables') && 'bg-graydark dark:bg-gold/70 dark:text-black'
                   }`}
                 >
                   <svg
@@ -423,9 +423,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/settings"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gold duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('settings') &&
-                    'bg-graydark dark:bg-meta-4'
+                    'bg-graydark dark:bg-gold/70 dark:text-black'
                   }`}
                 >
                   <svg
