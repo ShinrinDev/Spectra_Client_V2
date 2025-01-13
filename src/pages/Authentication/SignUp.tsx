@@ -1,17 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // Update these imports to point to your logo assets
-import YourLogo from '../../images/logo/slogo.png'; // Light mode logo
-import YourLogoDark from '../../images/logo/slogo.png'; // Dark mode logo
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../../../firebase';
+import {
+  default as YourLogo,
+  default as YourLogoDark,
+} from '../../images/logo/slogo.png'; // Light mode logo
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Perform signup logic here...
-    navigate('/onboarding');
+    console.log(userDetails);
+    try {
+      // Create user with email and password in Firebase Authentication
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        userDetails.email,
+        userDetails.password,
+      );
+
+      // Store user information in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        name: userDetails.name,
+        email: userDetails.email,
+        createdAt: new Date(),
+        uid: user.uid,
+        isVerified: false,
+      });
+
+      console.log('User created and added to Firestore');
+      navigate('/onboarding'); // Navigate to onboarding page
+    } catch (error) {
+      console.error('Error signing up:', error);
+      alert('Error signing up. Please try again.');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDetails({
+      ...userDetails,
+      [e.currentTarget.id]: e.currentTarget.value,
+    });
   };
   return (
     <div className="flex items-center justify-center h-screen bg-customblack dark:bg-boxdark">
@@ -42,7 +81,9 @@ const SignUp: React.FC = () => {
         {/* Right Half */}
         <div className="w-full border border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-            <span className="mb-1.5 block font-medium text-gold">Get Leads</span>
+            <span className="mb-1.5 block font-medium text-gold">
+              Get Leads
+            </span>
             <h2 className="mb-2 text-2xl font-bold text-white dark:text-white sm:text-title-xl2">
               Create Your Account
             </h2>
@@ -55,7 +96,9 @@ const SignUp: React.FC = () => {
                 <div className="relative">
                   <input
                     type="text"
+                    id="name"
                     placeholder="Enter your full name"
+                    onChange={handleChange}
                     className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-white outline-none focus:border-gold focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -68,8 +111,10 @@ const SignUp: React.FC = () => {
                 <div className="relative">
                   <input
                     type="email"
+                    id="email"
+                    onChange={handleChange}
                     placeholder="Enter your email"
-                    className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-gold focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-white outline-none focus:border-gold focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
               </div>
@@ -81,21 +126,10 @@ const SignUp: React.FC = () => {
                 <div className="relative">
                   <input
                     type="password"
+                    onChange={handleChange}
+                    id="password"
                     placeholder="Enter your password"
                     className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-white outline-none focus:border-gold focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="mb-2.5 block font-medium text-gold dark:text-white">
-                  Re-type Password
-                </label>
-                <div className="relative">
-                  <input
-                    type="password"
-                    placeholder="Re-enter your password"
-                    className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-gold focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
               </div>
@@ -108,7 +142,7 @@ const SignUp: React.FC = () => {
                 />
               </div>
 
-             {/* <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+              {/* <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                 <span>
                   <svg
                     width="20"
