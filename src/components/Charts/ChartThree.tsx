@@ -1,9 +1,12 @@
 import { ApexOptions } from 'apexcharts';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 interface ChartThreeState {
   series: number[];
+  labels: string[];
 }
 
 const options: ApexOptions = {
@@ -11,13 +14,12 @@ const options: ApexOptions = {
     fontFamily: 'Satoshi, sans-serif',
     type: 'donut',
   },
-  colors: ['#fad949', '#fab949', '#fcf7b4', '#d99c2b',"#f9e497",'#b78e1f','#9d7a14'],
-  labels: ['Logistics', 'Marketing', 'Unknown', 'Sales'],
+  colors: ['#fad949', '#fab949', '#fcf7b4', '#d99c2b', '#f9e497', '#b78e1f', '#9d7a14'],
+  labels: [],
   legend: {
     show: false,
     position: 'bottom',
   },
-
   plotOptions: {
     pie: {
       donut: {
@@ -50,17 +52,28 @@ const options: ApexOptions = {
 };
 
 const ChartThree: React.FC = () => {
-  const [state, setState] = useState<ChartThreeState>({
-    series: [65, 34, 12, 56],
-  });
+  const [state, setState] = useState<ChartThreeState>({ series: [], labels: [] });
+  const { user } = useAuth();
 
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-      series: [65, 34, 12, 56],
-    }));
-  };
-  handleReset;
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const firestore = getFirestore();
+        const docRef = doc(firestore, 'stats', user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const industries = docSnap.data().industries;
+          const labels = Object.keys(industries);
+          const series = labels.map((label) => parseFloat(industries[label])); // Convert values to numbers
+
+          setState({ labels, series });
+        }
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   return (
     <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-customDarkGray xl:col-span-5">
@@ -70,17 +83,11 @@ const ChartThree: React.FC = () => {
             Targeted Industries.
           </h5>
         </div>
-        <div>
-          <div className="relative z-20 inline-block">
-           
-          </div>
-        </div>
       </div>
-
       <div className="mb-2">
         <div id="chartThree" className="mx-auto flex justify-center">
           <ReactApexChart
-            options={options}
+            options={{ ...options, labels: state.labels }}
             series={state.series}
             type="donut"
           />
@@ -88,42 +95,19 @@ const ChartThree: React.FC = () => {
       </div>
 
       <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-        <div className="sm:w-1/2 w-full px-8">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fad949]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Logistics </span>
-              <span> 39% </span>
-            </p>
+        {state.labels.map((label, index) => (
+          <div key={label} className="sm:w-1/2 w-full px-8">
+            <div className="flex w-full items-center">
+              <span
+                className={`mr-2 block h-3 w-full max-w-3 rounded-full`}
+                style={{ backgroundColor: options.colors[index] }}
+              ></span>
+              <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+                <strong>{label} :</strong>{state.series[index]}%
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="sm:w-1/2 w-full px-8">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fab949]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Marketing </span>
-              <span> 20% </span>
-            </p>
-          </div>
-        </div>
-        <div className="sm:w-1/2 w-full px-8">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#fcf7b4]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Unknown </span>
-              <span> 7% </span>
-            </p>
-          </div>
-        </div>
-        <div className="sm:w-1/2 w-full px-8">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#d99c2b]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Sales </span>
-              <span> 34% </span>
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

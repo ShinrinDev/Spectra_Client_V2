@@ -1,16 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/logo/lead3.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const navigate =  useNavigate();
+  const [userInitial, setUserInitial] = useState('');
+  const navigate = useNavigate();
+  const [userData,setUserData] = useState('')
+  
+  const auth = getAuth();
+  const db = getFirestore();
+  const currentUser = auth.currentUser;
 
-  const handleLogout =  () =>{
-    navigate("/auth/signin")
-  }
+  // Fetch the user's data from Firestore
+  useEffect(() => {
+    if (currentUser) {
+      const fetchUser = async () => {
+        const docRef = doc(db, "users", currentUser.uid); // Assuming your users are stored with UID as document ID
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setUserData(userData);
+          const firstLetter = userData.name.charAt(0).toUpperCase(); // Assuming the user has a 'name' field
+          setUserInitial(firstLetter);
+        } else {
+          console.log("No such user!");
+        }
+      };
+      fetchUser();
+    }
+  }, [currentUser, db]);
+
+  const handleLogout = () => {
+    navigate("/auth/signin");
+  };
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -21,19 +48,23 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-[#fad949]">
-            Shinrin AI Solutions
+            <strong>{userData.name}</strong>
+           
           </span>
-          <span className="block text-xs">AI Automation</span>
+          
         </span>
 
         <span className="h-12 w-12 rounded-full">
-           {/^[a-zA-Z]/.test("S") ? (
-                <div className="flex justify-center items-center text-white dark:text-black text-2xl font-bold bg-black dark:bg-white border border-gray-300 rounded-full w-12 h-12 leading-none">
-                  S
-                </div>
-              ) : (
-                <img src={userSix} alt="Default" className="w-40 h-35 rounded-full" />
-              )}
+          {/* Display the first letter of the user's name */}
+          {userInitial ? (
+            <div className="flex justify-center items-center text-white dark:text-black text-2xl font-bold bg-black dark:bg-white border border-gray-300 rounded-full w-12 h-12 leading-none">
+              {userInitial}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center text-white dark:text-black text-2xl font-bold bg-black dark:bg-white border border-gray-300 rounded-full w-12 h-12 leading-none">
+              ?
+            </div>
+          )}
         </span>
 
         <svg
@@ -84,7 +115,6 @@ const DropdownUser = () => {
                 Profile
               </Link>
             </li>
-            
           </ul>
           <button 
           onClick={handleLogout}

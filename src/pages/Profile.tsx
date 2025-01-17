@@ -1,235 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import CoverOne from '../images/cover/cover-01.png';
 import CoverTwo from "../images/cover/SpectraBlackTransparent.png";
 import userSix from '../images/logo/lead3.jpeg';
-import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext/AuthContext';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import OnboardingAnswers from '../components/Answers';
+
+interface UserData {
+  name: string;
+  email: string;
+  profileImg?: string;
+}
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState({
-    companyName: 'Shinrin AI Solutions',
-    industry: 'AI Automation',
-    coreOffer: 'End-to-end AI-powered automation solutions for businesses',
-    ticketSize: '$20,000 - $100,000',
-    currentRevenue: '$80,000/month',
-    goalRevenue: '$250,000/month',
-    clientTechnologies: ['TensorFlow', 'Azure AI', 'AWS SageMaker', 'OpenAI API'],
-    keywords: ['AI Automation', 'Predictive Analytics', 'Intelligent Workflow', 'RPA (Robotic Process Automation)'],
-    market: 'AI Automation, Workflow Optimization, Predictive Analytics',
-    adjacentMarkets: 'Healthcare, Finance, Customer Support, Marketing Technology',
-    geography: 'Global with a focus on North America, Europe, and Asia-Pacific',
-    companyHeadcount: '6-12 employees',
-    targetTitles: ['CTO', 'Head of Automation', 'Product Manager', 'AI Engineer'],
-    caseStudy:
-      'Recently, we helped a fintech company reduce customer churn by 40% and improve decision-making accuracy with an AI-powered predictive analytics platform tailored to their needs.',
-    caseStudyLink: 'https://shinrinai.com/case-studies',
-    painPoints: [
-      'Time-intensive manual workflows',
-      'Limited adoption of AI in key operational areas',
-      'Inefficient decision-making due to fragmented data systems',
-      'High costs and delays in implementing automation solutions',
-    ],
-    landingPage: 'https://shinrinsolutions.co.za/',
-    bookingPage: 'https://shinrinsolutions.co.za/contact-us/',
-    thankYouPage: 'https://shinrinsolutions.co.za/meet-the-team/',
-    contactDetails: {
-      phone: '+1-800-555-6789',
-      email: 'shaun@shinrinai.co.za',
-      address: '6969 Shinrin Cave, My basement, Moms house',
-    },
-    
-  });
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  const [editing, setEditing] = useState({
-    companyName: false,
-    industry: false,
-    coreOffer: false,
-    ticketSize: false,
-    currentRevenue: false,
-    goalRevenue: false,
-    clientTechnologies: false,
-    keywords: false,
-    market: false,
-    adjacentMarkets: false,
-    geography: false,
-    companyHeadcount: false,
-    targetTitles: false,
-    caseStudy: false,
-    caseStudyLink: false,
-    painPoints: false,
-    landingPage: false,
-    bookingPage: false,
-    thankYouPage: false,
-    contactDetails: false,
-  });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        const firestore = getFirestore();
+        const storage = getStorage();
+        const userDocRef = doc(firestore, 'users', user.uid);
+        const userDocSnap = await getDoc(userDocRef);
 
-  const handleInputChange = (field, value) => {
-    setProfileData({
-      ...profileData,
-      [field]: value,
-    });
-  };
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data() as UserData;
+          setUserData(data);
 
-  const handleNestedInputChange = (nestedField, key, value) => {
-    setProfileData({
-      ...profileData,
-      [nestedField]: {
-        ...profileData[nestedField],
-        [key]: value,
-      },
-    });
-  };
+          if (data.profileImg) {
+            const imageRef = ref(storage, data.profileImg);
+            const imageUrl = await getDownloadURL(imageRef);
+            setProfileImage(imageUrl);
+          }
+        }
+      }
+    };
+    fetchUserData();
+  }, [user]);
 
-  const toggleEdit = (field) => {
-    setEditing({
-      ...editing,
-      [field]: !editing[field],
-    });
+  const handleProfileImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const storage = getStorage();
+      const imageRef = ref(storage, `profileImages/${user?.uid}`);
+
+      await uploadBytes(imageRef, file);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      setProfileImage(imageUrl);
+
+      if (user) {
+        const firestore = getFirestore();
+        const userDocRef = doc(firestore, 'users', user.uid);
+        await updateDoc(userDocRef, { profileImg: `profileImages/${user.uid}` });
+      }
+    }
   };
 
   return (
     <>
       <Breadcrumb pageName="Profile" />
-
       <div className="overflow-hidden rounded-sm border border-stroke bg-white dark:bg-black shadow-default dark:border-strokedark dark:bg-customblack">
         <div className="relative z-20 h-35 md:h-65">
           <img
             src={CoverTwo}
             alt="profile cover"
-            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center bg-white dark:bg-customblack "
+            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center bg-white dark:bg-customblack"
           />
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
-        <div className="relative z-20 mx-auto -mt-20 h-20 w-full max-w-10 rounded-full bg-white/20 p-2 backdrop-blur sm:h-39 sm:max-w-44 sm:p-3">
-  <div className="relative drop-shadow-2">
-    {/^[a-zA-Z]/.test(profileData.companyName) ? (
-      <div className="flex justify-center items-center text-white dark:text-black text-9xl font-bold bg-black dark:bg-white border border-gray-300 rounded-full w-43 h-43 leading-none">
-        {profileData.companyName[0].toUpperCase()}
-      </div>
-    ) : (
-      <img src={userSix} alt="Default" className="w-40 h-35 rounded-full" />
-    )}
-  </div>
-</div>
-
-          <div className="mt-4 dark:bg-black bg-white">
-            <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-[#fad949]">
-              {editing.companyName ? (
-                <input
-                  type="text"
-                  value={profileData.companyName}
-                  onChange={(e) =>
-                    handleInputChange('companyName', e.target.value)
-                  }
-                  className="text-center border border-gray-300 rounded px-2"
-                />
-              ) : (
-                profileData.companyName
-              )}
-              <button
-                onClick={() => toggleEdit('companyName')}
-                className="ml-2 text-blue-500 hover:underline"
-              >
-                {editing.companyName ? 'Save' : 'Edit'}
-              </button>
-            </h3>
-            <p className="font-medium text-[#fad949]">
-              {editing.industry ? (
-                <input
-                  type="text"
-                  value={profileData.industry}
-                  onChange={(e) =>
-                    handleInputChange('industry', e.target.value)
-                  }
-                  className="text-center border border-gray-300 rounded px-2"
-                />
-              ) : (
-                profileData.industry
-              )}
-              <button
-                onClick={() => toggleEdit('industry')}
-                className="ml-2 text-blue-500 hover:underline"
-              >
-                {editing.industry ? 'Save' : 'Edit'}
-              </button>
-            </p>
+          <div className="relative z-20 mx-auto -mt-20 h-20 w-full max-w-10 rounded-full bg-white/20 p-2 backdrop-blur sm:h-39 sm:max-w-44 sm:p-3">
+            {profileImage ? (
+              <img src={profileImage} alt="Profile" className="w-40 h-40 rounded-full" />
+            ) : (
+              <div className="flex justify-center items-center text-white dark:text-black text-9xl font-bold bg-black dark:bg-white border border-gray-300 rounded-full w-43 h-43 leading-none">
+                {userData?.name[0].toUpperCase()}
+              </div>
+            )}
+          </div>
+          <input type="file" accept="image/*" onChange={handleProfileImageChange} className="mt-4" />
+          <h3 className="mt-4 text-2xl font-semibold text-black dark:text-[#fad949]">{userData?.name}</h3>
+          <p className="font-medium text-[#fad949]">{userData?.email}</p>
+        </div>
             <div>
-              <h4 className='text-lg font-bold text-black dark:text-white'>Company Details</h4>
-              
-              <ul className='mt-4 text-left'>
-              
-                <li className='dark:text-[#fad949]'>
-                  <strong className='dark:text-white text-black'>Phone:</strong> {editing.contactDetails.phone ? (
-                    <input
-                      type="text"
-                      value={profileData.contactDetails.phone}
-                      onChange={(e) => handleNestedInputChange('contactDetails', 'phone', e.target.value)}
-                      className="border border-gray-300 rounded px-2"
-                    />
-                  ) : (
-                    profileData.contactDetails.phone
-                  )}
-                  <button
-                    onClick={() => toggleEdit('contactDetails', 'phone')}
-                    className="ml-2 text-blue-500 hover:underline"
-                  >
-                    {editing.contactDetails.phone ? 'Save' : 'Edit'}
-                  </button>
-                </li>
-                <li className='dark:text-[#fad949]'>
-                  <strong className='dark:text-white text-black'>Email:</strong> {editing.contactDetails.email ? (
-                    <input
-                      type="email"
-                      value={profileData.contactDetails.email}
-                      onChange={(e) => handleNestedInputChange('contactDetails', 'email', e.target.value)}
-                      className="border border-gray-300 rounded px-2"
-                    />
-                  ) : (
-                    profileData.contactDetails.email
-                  )}
-                  <button
-                    onClick={() => toggleEdit('contactDetails', 'email')}
-                    className="ml-2 text-blue-500 hover:underline"
-                  >
-                    {editing.contactDetails.email ? 'Save' : 'Edit'}
-                  </button>
-                </li>
-                <li className='dark:text-[#fad949]'>
-                  <strong className='dark:text-white text-black'>Address:</strong> {editing.contactDetails.address ? (
-                    <input
-                      type="text"
-                      value={profileData.contactDetails.address}
-                      onChange={(e) => handleNestedInputChange('contactDetails', 'address', e.target.value)}
-                      className="border border-gray-300 rounded px-2"
-                    />
-                  ) : (
-                    profileData.contactDetails.address
-                  )}
-                  <button
-                    onClick={() => toggleEdit('contactDetails', 'address')}
-                    className="ml-2 text-blue-500 hover:underline"
-                  >
-                    {editing.contactDetails.address ? 'Save' : 'Edit'}
-                  </button>
-                </li>
-                <li className='dark:text-[#fad949]'>
-                  <strong className='dark:text-white text-black'>Head Count:</strong> {editing.companyHeadcount ? (<input 
-                  type='text'
-                  value={profileData.companyHeadcount}
-                  onChange={(e) => handleInputChange("companyHeadcount", e.target.value)}
-                  className='border border-gray-300 rounded px-2'/>
-                  ) :(
-                    profileData.companyHeadcount)}
-                    <button
-                    onClick={() => toggleEdit("companyHeadcount")}
-                    className='ml-2 text-blue-500 dark:text-blue hover:underline'>
-                      {editing.companyHeadcount ? "Save" : "Edit"}
-                    </button>
-
-                </li>
-              </ul>
+                    <OnboardingAnswers/>
             </div>
-            {/* Core Information Section */}
+
+           {/** {/* Core Information Section *}
             <div className="mt-6">
               <h4 className="text-lg font-semibold text-black dark:text-white">
                 Core Information
@@ -322,7 +182,7 @@ const Profile = () => {
               </ul>
             </div>
 
-            {/* Lead Scraping Information Section */}
+            {/* Lead Scraping Information Section }
             <div className="mt-6">
               <h4 className="text-lg font-semibold text-black dark:text-white">
                 Lead Scraping Information
@@ -504,10 +364,10 @@ const Profile = () => {
                   </button>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
-        </div>
-      </div>
+       
+      
     </>
   );
 };
