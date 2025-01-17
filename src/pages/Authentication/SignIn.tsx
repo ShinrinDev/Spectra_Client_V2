@@ -30,7 +30,7 @@ const SignIn: React.FC = () => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
 
-        if (userData.borded === true) {
+        if (userData.done === true) {
           console.log('User is onboarded:', userData);
           navigate('/', { state: { user: userData } }); // Pass user data to the home page
         } else {
