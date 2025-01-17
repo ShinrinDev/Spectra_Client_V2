@@ -36,6 +36,7 @@ const SignUp: React.FC = () => {
         createdAt: new Date(),
         uid: user.uid,
         isVerified: false,
+        borded: false,
       });
 
       console.log('User created and added to Firestore');
@@ -61,7 +62,7 @@ const SignUp: React.FC = () => {
           style={{ backgroundColor: '#000000' }}
         >
           <div className="py-17.5 px-26 text-center">
-            <Link className="inline-block" to="/">
+            <Link className="inline-block" to="/auth/signin">
               <img
                 className="hidden dark:block" // Adjust size as needed
                 src={YourLogoDark}

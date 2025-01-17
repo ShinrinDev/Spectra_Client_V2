@@ -102,7 +102,7 @@ const ECommerce: React.FC = () => {
         <ChartTwo />
         <ChartThree />
         <div className="col-span-20 xl:col-span-9">
-          <MapOne />
+          
         </div>
     {/**    <EmailCard /> */}
       </div>

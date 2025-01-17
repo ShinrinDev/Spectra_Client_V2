@@ -19,7 +19,7 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import Resources from './pages/Resources';
 import Emails from './pages/Email';
-
+import Unauthorized from './pages/unauthorized';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   // Define routes that should bypass DefaultLayout
-  const authRoutes = ['/auth/signin', '/auth/signup', '/onboarding'];
+  const authRoutes = ['/auth/signin', '/auth/signup', '/onboarding','/unauthorized'];
 
   const isAuthRoute = authRoutes.includes(pathname);
 
@@ -47,6 +47,7 @@ function App() {
           <Route path="/auth/signin" element={<SignIn />} />
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/onboarding" element={<OnboardingBot />} />
+          <Route path="/unauthorized" element={<Unauthorized />}/>
         </Routes>
       ) : (
         // Render with DefaultLayout
@@ -79,6 +80,7 @@ function App() {
                 </>
               }
             />
+           
             <Route
               path="/forms/form-elements"
               element={
