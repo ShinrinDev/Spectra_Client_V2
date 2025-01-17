@@ -78,7 +78,7 @@ const OnboardingBot: React.FC = () => {
 
         setIsSaveLoading(false);
         alert('Wait for approval before joining platform');
-        navigate('/');
+        navigate('/auth/signin');
       }
     } catch (error) {
       console.error(error);
